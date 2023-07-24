@@ -6,27 +6,32 @@ volumes:
   media:
 
 services:
+
   db:
     image: postgres:13
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
+
   backend:
     image: dramshtadiy/kittygram_backend
     env_file: .env
     volumes:
       - static:/static
       - media:/app/media/
+
   frontend:
     image: dramshtadiy/kittygram_frontend  # Качаем с Docker Hub
     env_file: .env
     command: cp -r /app/build/. /static/
     volumes:
       - static:/static
+
   gateway:
     image: dramshtadiy/kittygram_gateway  # Качаем с Docker Hub
     env_file: .env
     volumes:
       - static:/static/
+      - meda:/app/media/
     ports:
       - 9000:80
